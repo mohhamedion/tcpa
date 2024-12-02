@@ -10,8 +10,10 @@ Route::prefix('admin')->group(function() {
 });
 
 
-Route::middleware('auth:web')->group(function(){
-    Route::get('/', function () {
+Route::middleware('auth:web')->group(function()
+{
+    Route::get('/dashboard', function ()
+    {
         return view('admin.index');
-    });
+    })->name('dashboard');
 });
