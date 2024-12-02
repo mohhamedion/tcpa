@@ -2,8 +2,8 @@
 
 namespace App\Enums\User;
 
-enum Roles
+enum Roles: string
 {
-    case Admin;
-    case Agent;
+    case Admin = 'admin';
+    case Agent = 'agent';
 }
