@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $name;
  * @property string $login;
  * @property string $password;
+ * @property int $company_id;
  */
 class User extends Authenticatable
 {
