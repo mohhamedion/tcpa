@@ -4,36 +4,31 @@
 
     <section class="container">
         <div class="container mt-5">
-            <h2>Create Agent</h2>
-            <form action="{{route('companies.store')}}" method="POST">
-            @method('POST')
+            <h2>Update Agent {{$agent->name}} for company {{$company->name}}</h2>
+            <form action="{{route('agents.update',['company' => $company->id,'user' => $agent->id])}}" method="POST">
+            @method('PUT')
             @csrf
             <!-- Name -->
 
                 <div class="mb-3">
-                    <label for="name" class="form-label">Agent Login</label>
-                    <input type="text" class="form-control" id="name" name="login" placeholder="Login" required>
-                </div>
-
-                <div class="mb-3">
                     <label for="name" class="form-label">Agent Full Name</label>
-                    <input type="text" class="form-control" id="name" name="full_name" placeholder="Full Name" required>
+                    <input type="text" class="form-control" id="full_name" name="full_name" value="{{$agent->name}}" placeholder="Full Name" required>
                 </div>
 
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="name" name="name" placeholder="password" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
                 </div>
 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Company</label>
-                    <select name="company_id" class="form-control">
-                        @foreach($companies as $company)
-                            <option value="{{$company->id}}">{{$company->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+            {{--                <div class="mb-3">--}}
+            {{--                    <label for="name" class="form-label">Company</label>--}}
+            {{--                    <select name="company_id" class="form-control">--}}
+            {{--                        @foreach($companies as $company)--}}
+            {{--                            <option value="{{$company->id}}">{{$company->name}}</option>--}}
+            {{--                        @endforeach--}}
+            {{--                    </select>--}}
+            {{--                </div>--}}
 
             {{--                <!-- From Number -->--}}
             {{--                <div class="mb-3">--}}
@@ -56,7 +51,7 @@
             {{--                </div>--}}
 
             <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Create Company</button>
+                <button type="submit" class="btn btn-primary">Create Agent</button>
             </form>
         </div>
     </section>

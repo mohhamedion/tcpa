@@ -31,4 +31,26 @@ class UserService
     }
 
 
+    /**
+     * @throws Throwable
+     */
+    public function update(User $user, string $name, string $password = null)
+    {
+        $user->name = $name;
+        if($password){
+            $user->password = Hash::make($password);
+        }
+        $user->saveOrFail();
+    }
+
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(User $user)
+    {
+        $user->deleteOrFail();
+    }
+
+
 }

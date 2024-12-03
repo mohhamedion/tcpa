@@ -2,33 +2,31 @@
 @section('content')
 
     <section class="container">
-        <h2>Companies</h2>
+        <h2>Agents of company {{$company->name}}</h2>
 
-        <a href="{{route('companies.createForm')}}" class="btn btn-success">{{__('Create new company')}}</a>
+        <a href="{{route('agents.createForm',['company' => $company->id])}}" class="btn btn-success">{{__('Create Agent')}}</a>
 
 
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Agents</th>
+                <th scope="col">Agent Name</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
 
-            @foreach($companies as $company)
+            @foreach($agents as $agent)
                 <tr class="text-white">
                     <th scope="row">{{$company->id}}</th>
-                    <td>{{$company->name}}</td>
-                    <td><a class="btn btn-warning" href="{{route('agents.index',['company' => $company->id])}}">Agents</a></td>
+                    <td>{{$agent->name}}</td>
                     <td class="text-center">
 
                         <div class="btn-sm me-2">
-                            <a href="{{route('companies.updateForm',['company' => $company->id])}}" class="btn btn-warning ">Edit</a>
+                            <a href="{{route('agents.updateForm',['user' => $agent->id,'company' => $company->id])}}" class="btn btn-warning ">Edit</a>
                         </div>
-                        <form action="{{route('companies.delete',['company' => $company->id])}}" method="post">
+                        <form action="{{route('agents.delete',['user' => $agent->id])}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Delete</button>
