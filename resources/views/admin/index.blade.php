@@ -3,7 +3,7 @@
 
 
     <section class="container">
-        hi
+
     </section>
 
 @endsection

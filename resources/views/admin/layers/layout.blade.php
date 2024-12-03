@@ -40,7 +40,7 @@
     @if(Auth::check())
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-item nav-link" href="">Companies</a>
+              <a class="nav-item nav-link" href="{{route('companies.index')}}">Companies</a>
             </div>
         </div>
 
@@ -49,7 +49,6 @@
 
 
 </nav>
-
 @yield('content')
 
 @if(session()->exists('error'))
