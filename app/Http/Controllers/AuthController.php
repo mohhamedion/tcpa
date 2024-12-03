@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('admin.login.index');
+        return view('login.index');
     }
 
     public function logout() {
@@ -20,9 +21,15 @@ class AuthController extends Controller
 
     public function auth(Request $request) {
         $credentials = $request->only('name', 'password');
-        if(Auth::attempt($credentials)) {
-            session()->forget('loginAttempts'); # обнулить счетчик попыток входа (удалить сессию)
-            return redirect(route('dashboard'));
+
+        if(Auth::attempt($credentials))
+        {
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+
+            return redirect(route($user->isAdmin() ? 'admin.dashboard' : 'agent.dashboard'));
         }
 
         return redirect(route('login'))->withErrors([

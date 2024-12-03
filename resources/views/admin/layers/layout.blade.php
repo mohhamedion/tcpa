@@ -44,6 +44,13 @@
             </div>
         </div>
 
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{route('logout')}}">Logout</a>
+            </div>
+        </div>
+
+
     @endif
 
 

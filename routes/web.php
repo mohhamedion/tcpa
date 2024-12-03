@@ -7,16 +7,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdminMiddleware;
 
 
-Route::prefix('admin')->group(function() {
+Route::group([],function() {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
 {
     Route::get('/', function () {
         return view('admin.index');
-    })->name('dashboard');
+    })->name('admin.dashboard');
 
     Route::group(['prefix' => 'companies'],function() {
         Route::get('/',[CompanyController::class,'index'])->name('companies.index');
@@ -35,5 +36,14 @@ Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
         Route::put('/update/{company}/{user}',[UserController::class,'update'])->name('agents.update');
         Route::delete('/{user}',[UserController::class,'delete'])->name('agents.delete');
     });
+
+});
+
+
+Route::middleware(['auth:web'])->group(function()
+{
+    Route::get('/agent', function () {
+        return view('agent.index');
+    })->name('agent.dashboard');
 
 });
