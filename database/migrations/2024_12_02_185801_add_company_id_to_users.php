@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-            $table->foreignId('company_id')->nullable()->references('id')->on('companies');
+            $table->foreignId('company_id')->nullable()->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('company_id');
+            $table->dropColumn('company_id');
         });
     }
 };
