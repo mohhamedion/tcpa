@@ -42,7 +42,7 @@ Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
 
 Route::middleware(['auth:web'])->group(function()
 {
-    Route::get('/agent', function () {
+    Route::get('/', function () {
         return view('agent.index');
     })->name('agent.dashboard');
 
