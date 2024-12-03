@@ -4,13 +4,15 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\IsAdminMiddleware;
+
 
 Route::prefix('admin')->group(function() {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
 });
 
-Route::middleware('auth:web')->group(function()
+Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
 {
     Route::get('/', function () {
         return view('admin.index');
