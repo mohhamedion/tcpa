@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('verification_code');
 
             $table->foreignId('agent_id')->references('id')->on('users');
+
+            $table->foreignId('company_id')->references('id')->on('companies');
         });
     }
 
