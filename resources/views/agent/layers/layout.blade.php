@@ -41,7 +41,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-{{--                <a class="nav-item nav-link" href="{{route('companies.index')}}">Companies</a>--}}
+                <a class="nav-item nav-link" href="{{route('clients.index')}}">Clients</a>
             </div>
         </div>
 

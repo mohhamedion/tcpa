@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Agent\ClientController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdminMiddleware;
@@ -45,5 +46,9 @@ Route::middleware(['auth:web'])->group(function()
     Route::get('/', function () {
         return view('agent.index');
     })->name('agent.dashboard');
+
+    Route::group(['prefix' => 'clients'],function() {
+        Route::get('/',[ClientController::class,'index'])->name('clients.index');
+    });
 
 });
