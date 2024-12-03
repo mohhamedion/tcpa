@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('from_number')->nullable()->unique();
-            $table->text('template_for_verification_code');
-            $table->text('template_for_tcpa_accept');
+            $table->foreignId('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
