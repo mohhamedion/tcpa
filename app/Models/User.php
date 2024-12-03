@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\User\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,6 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $login;
  * @property string $password;
  * @property int $company_id;
+ * @property Company $company;
  */
 class User extends Authenticatable
 {
@@ -57,5 +59,10 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->hasRole(Roles::Admin);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id','id');
     }
 }
