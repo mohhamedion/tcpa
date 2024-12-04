@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\Client\Statuses;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
-use Exception;
 use Throwable;
 
 
@@ -24,7 +24,6 @@ class ClientService
      */
     public function store(Company $company, User $user, string $firstName, string $lastName, string $phoneNumber, string $language): Client
     {
-
         $client = new Client();
         $client->company_id = $company->id;
         $client->first_name = $firstName;
@@ -32,11 +31,9 @@ class ClientService
         $client->phone_number = $phoneNumber;
         $client->agent_id = $user->id;
         $client->language = $language;
-        $client->status = 'created'; //todo move to enum
+        $client->status = Statuses::CREATED->value; //todo move to enum
         $client->saveOrFail();
-
         return $client;
-
     }
 
     /**
@@ -45,19 +42,36 @@ class ClientService
     public function sendVerificationCode(Client $client)
     {
         $verificationCode = substr(str_shuffle("0123456789"), 0, 4);
+        //todo get content template by company
+        $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
         $this->smsMessageService->store(
             $client->company->smsSettings->from_number,
             $client->phone_number ,
-            $verificationCode
+            $template
         );
 
-
-        //todo get content template by company
         $client->verification_code = $verificationCode;
-        $client->status = 'waiting_for_verification';
+        $client->status = Statuses::WAITING_FOR_VERIFICATION->value;
         $client->saveOrFail();
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function sendRequestToAcceptTCPA(Client $client)
+    {
+        //todo get content template by company
+        $template = "Consent Request for John Smith at '{$client->phone_number}'.
+Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
+        $this->smsMessageService->store(
+            $client->company->smsSettings->from_number,
+            $client->phone_number ,
+            $template
+        );
+
+        $client->status = Statuses::WAITING_FOR_CLIENT_AGREEMENT->value;
+        $client->saveOrFail();
+    }
 
     /**
      * @param Client $client
@@ -67,23 +81,13 @@ class ClientService
      */
     public function verify(Client $client, $verificationCode)
     {
-        if($client->verification_code === $verificationCode){
-            $client->status = 'waiting_for_client_agreement';
+        if($client->verification_code === $verificationCode)
+        {
+            $client->status = Statuses::NUMBER_VERIFIED->value;
         }
-        //todo send sms
-        $client->saveOrFail();
 
-    }
-
-
-    /**
-     * @param $client
-     * @return void
-     */
-    public function clientAcceptTCPA(Client $client)
-    {
-        $client->status = 'client_accept_tcpa';
         $client->saveOrFail();
     }
+
 
 }

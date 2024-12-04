@@ -86,7 +86,21 @@ class ClientController extends Controller
      */
     public function verify(Request $request, Client $client)
     {
-        $this->clientService->verify($client, $request->input('verification_code'));
+
+        try {
+            $this->clientService->verify($client, $request->input('verification_code'));
+
+            try {
+                $this->clientService->sendRequestToAcceptTCPA($client);
+            }catch (Throwable $exception)
+            {
+                session()->flash('error', "Error while sending sms to accept TCPA");
+            }
+
+        }catch (Throwable $exception){
+            session()->flash('error', "Error while verifying verification code");
+        }
+
         return redirect()->back();
     }
 
