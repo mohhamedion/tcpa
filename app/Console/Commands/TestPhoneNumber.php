@@ -28,7 +28,7 @@ class TestPhoneNumber extends Command
     {
         $smsService = new TwilioService();
 
-        $smsService->sendSmsMessage();
+        $smsService->sendSmsMessage('+15005550006','+79999757345','Hi');
         //
     }
 }
