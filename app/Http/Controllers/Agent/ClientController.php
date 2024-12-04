@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\User;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
@@ -18,10 +19,10 @@ class ClientController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return view('agent.clients.index');
+        $clients = Client::query()->where('agent_id', $request->user()->id)->get();
+        return view('agent.clients.index')->with(['clients' => $clients]);
     }
 
     public function createForm()
@@ -34,6 +35,11 @@ class ClientController extends Controller
     {
 
         return view('agent.clients.update');
+    }
+
+    public function show(Client $client)
+    {
+        return view('agent.clients.show')->with(['client' => $client]);
     }
 
     /**
@@ -57,5 +63,13 @@ class ClientController extends Controller
         return redirect()->to(route('clients.show', ['client' => $client->id]));
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function verify(Request $request, Client $client)
+    {
+       $this->clientService->verify($client,$request->input('verification_code'));
+       return redirect()->back();
+    }
 
 }

@@ -50,6 +50,9 @@ Route::middleware(['auth:web'])->prefix('company')->group(function()
     Route::group(['prefix' => 'clients'],function() {
         Route::get('/',[ClientController::class,'index'])->name('clients.index');
         Route::get('/create',[ClientController::class,'createForm'])->name('clients.createForm');
+        Route::get('/{client}',[ClientController::class,'show'])->name('clients.show');
+
+        Route::post('/verify/{client}',[ClientController::class,'verify'])->name('clients.verify');
         Route::post('/',[ClientController::class,'store'])->name('clients.store');
     });
 
