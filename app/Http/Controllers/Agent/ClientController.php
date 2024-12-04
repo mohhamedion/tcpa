@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ClientController extends Controller
@@ -65,12 +66,14 @@ class ClientController extends Controller
             try {
                 $this->clientService->sendVerificationCode($client);
             } catch (Throwable $exception) {
-                session()->flash('error', "Error while sending sms message");
+                Log::error("Error while sending verification code: " . $exception->getMessage());
+                session()->flash('error', "Error while sending verification code");
             }
 
             return redirect()->to(route('clients.show', ['client' => $client->id]));
 
         } catch (Throwable $exception) {
+            Log::error("Error while creating client: " . $exception->getMessage());
             session()->flash('error', "Error while creating client");
         }
 
