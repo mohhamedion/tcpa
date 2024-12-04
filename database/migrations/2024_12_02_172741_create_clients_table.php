@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->string('phone_number');
 
-            $table->string('verification_code');
+            $table->string('verification_code')->nullable();
 
             $table->foreignId('agent_id')->references('id')->on('users');
 
