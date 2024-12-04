@@ -51,16 +51,31 @@ class ClientController extends Controller
          * @var User $user
          */
         $user = $request->user();
-        $client = $this->clientService->store(
-            $user->company
-            , $user
-            , $request->input('first_name')
-            , $request->input('last_name')
-            , $request->input('phone_number')
-            , $request->input('language')
-        );
 
-        return redirect()->to(route('clients.show', ['client' => $client->id]));
+        try {
+            $client = $this->clientService->store(
+                $user->company
+                , $user
+                , $request->input('first_name')
+                , $request->input('last_name')
+                , $request->input('phone_number')
+                , $request->input('language')
+            );
+
+            try {
+                $this->clientService->sendVerificationCode($client);
+            } catch (Throwable $exception) {
+                session()->flash('error', "Error while sending sms message");
+            }
+
+            return redirect()->to(route('clients.show', ['client' => $client->id]));
+
+        } catch (Throwable $exception) {
+            session()->flash('error', "Error while creating client");
+        }
+
+        return redirect()->back();
+
     }
 
     /**
@@ -68,8 +83,8 @@ class ClientController extends Controller
      */
     public function verify(Request $request, Client $client)
     {
-       $this->clientService->verify($client,$request->input('verification_code'));
-       return redirect()->back();
+        $this->clientService->verify($client, $request->input('verification_code'));
+        return redirect()->back();
     }
 
 }

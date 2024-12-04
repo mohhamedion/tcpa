@@ -23,21 +23,19 @@ class SmsMessageService
     public function store(string $from, string $to, string $content): SmsMessage
     {
 
-        $smsMessage = new SmsMessage();
-        $smsMessage->from_number = $from;
-        $smsMessage->to_number = $to;
-        $smsMessage->content = $content;
-        $smsMessage->sms_service = $this->smsService::class;
-
         try {
             $this->smsService->sendSmsMessage($from, $to, $content);
+            $smsMessage = new SmsMessage();
+            $smsMessage->from_number = $from;
+            $smsMessage->to_number = $to;
+            $smsMessage->content = $content;
+            $smsMessage->sms_service = $this->smsService::class;
             $smsMessage->status = 'success';
         }catch (Throwable $exception){
-            $smsMessage->status = 'failed';
-            Log::info("Error while sending sms message from {$from} to {$to}. Using {$this->smsService::class} service : ". $exception->getMessage());
+            Log::info("Error while sending sms message from {$from} to {$to}. Using {$this->smsService::class}
+            service : ". $exception->getMessage());
+            throw $exception;
         }
-
-        $smsMessage->saveOrFail();
 
         return $smsMessage;
 
