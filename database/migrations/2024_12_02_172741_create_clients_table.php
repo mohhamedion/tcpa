@@ -31,6 +31,8 @@ return new class extends Migration
             $table->foreignId('agent_id')->references('id')->on('users');
 
             $table->foreignId('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            $table->unique(['company_id', 'phone_number']);
         });
     }
 
