@@ -31,6 +31,7 @@ class SmsMessageService
             $smsMessage->content = $content;
             $smsMessage->sms_service = $this->smsService::class;
             $smsMessage->status = 'success';
+            $smsMessage->saveOrFail();
         }catch (Throwable $exception){
             Log::info("Error while sending sms message from {$from} to {$to}. : ". $exception->getMessage());
             throw $exception;
