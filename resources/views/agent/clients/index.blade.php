@@ -11,31 +11,21 @@
             <thead class="table-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Agents</th>
-                <th scope="col" class="text-center">Actions</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col" class="text-center">status</th>
             </tr>
             </thead>
             <tbody>
 
-{{--            @foreach($companies as $company)--}}
-{{--                <tr class="text-white">--}}
-{{--                    <th scope="row">{{$company->id}}</th>--}}
-{{--                    <td>{{$company->name}}</td>--}}
-{{--                    <td><a class="btn btn-warning" href="{{route('agents.index',['company' => $company->id])}}">Agents</a></td>--}}
-{{--                    <td class="text-center">--}}
-
-{{--                        <div class="btn-sm me-2">--}}
-{{--                            <a href="{{route('companies.updateForm',['company' => $company->id])}}" class="btn btn-warning ">Edit</a>--}}
-{{--                        </div>--}}
-{{--                        <form action="{{route('companies.delete',['company' => $company->id])}}" method="post">--}}
-{{--                            @csrf--}}
-{{--                            @method('DELETE')--}}
-{{--                            <button class="btn btn-danger btn-sm">Delete</button>--}}
-{{--                        </form>--}}
-{{--                    </td>--}}
-{{--                </tr>--}}
-{{--            @endforeach--}}
+            @foreach($clients as $client)
+                <tr class="text-white">
+                    <th scope="row">{{$client->id}}</th>
+                    <td><a href="{{route('clients.show',['client' => $client->id])}}">{{$client->first_name.' '.$client->last_name}}</a></td>
+                    <td>{{$client->phone_number}}</td>
+                    <td>{{$client->status}}</td>
+                </tr>
+            @endforeach
             <!-- Add more rows dynamically as needed -->
             </tbody>
         </table>
