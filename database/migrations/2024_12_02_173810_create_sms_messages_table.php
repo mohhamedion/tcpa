@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sms_messages', function (Blueprint $table) {
+        Schema::create('sms_messages', function (Blueprint $table)
+        {
             $table->id();
 
             $table->text('content');
 
+            $table->string('from_number');
+
             $table->string('to_number');
 
             $table->string('sms_service');
+
+            $table->string('status');
 
             $table->timestamps();
         });

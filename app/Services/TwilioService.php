@@ -4,13 +4,14 @@ namespace App\Services;
 
 use Exception;
 use Twilio\Exceptions\ConfigurationException;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 
 class TwilioService
 {
 
-    public $client;
+    public Client $client;
 
     /**
      * @throws ConfigurationException
@@ -23,24 +24,19 @@ class TwilioService
     }
 
 
-    public function sendSmsMessage()
+    /**
+     * @throws TwilioException
+     */
+    public function sendSmsMessage($from, $to, $content)
     {
-        //+17752599230
-            $from = "+15005550006"; // Twilio Test 'From' number (simulates success)
-            $to = "+15005550009";   // Simulated success 'To' number
-
-            // Send a test message
-            $message = $this->client->messages->create(
+        // create smsMessage
+           $this->client->messages->create(
                 $to,
                 [
                     'from' => $from,
-                    'body' => 'This is a test message using Twilio Test Credentials.'
+                    'body' => $content
                 ]
             );
-
-            // Output the Message SID
-            echo "Test message sent successfully! Message SID: " . $message->sid . "\n";
-
 
     }
 
