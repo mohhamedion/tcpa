@@ -2,15 +2,7 @@
 @section('content')
 
     <section class="container">
-
-        <h2>Client</h2>
-        <form >
-
-
-
-
-        </form>
-
+       show client {{$client->first_name}}
     </section>
 
 @endsection

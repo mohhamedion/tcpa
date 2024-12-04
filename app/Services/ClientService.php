@@ -24,8 +24,9 @@ class ClientService
         $client->language = $language;
         //todo send sms
         $client->status = 'waiting_for_verification'; //todo move to enum
-        $client->verification_code = rand(9).rand(9).rand(9).rand(9);
+        $client->verification_code = 1111;
         $client->saveOrFail();
+        return $client;
 
     }
 

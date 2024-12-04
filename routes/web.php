@@ -41,7 +41,7 @@ Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
 });
 
 
-Route::middleware(['auth:web'])->group(function()
+Route::middleware(['auth:web'])->prefix('company')->group(function()
 {
     Route::get('/', function () {
         return view('agent.index');
@@ -49,6 +49,8 @@ Route::middleware(['auth:web'])->group(function()
 
     Route::group(['prefix' => 'clients'],function() {
         Route::get('/',[ClientController::class,'index'])->name('clients.index');
+        Route::get('/create',[ClientController::class,'createForm'])->name('clients.createForm');
+        Route::post('/',[ClientController::class,'store'])->name('clients.store');
     });
 
 });
