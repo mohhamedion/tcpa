@@ -2,9 +2,10 @@
 @section('content')
 
     <section class="container">
-
-        <h2>hi Agent</h2>
-
+        <div>
+            <p>Hi Agent, before starting, please ensure to fill your company twilio cridentils in service form</p>
+            <a class="nav-item nav-link" href="{{route('twilio-settings.index',['company_hash' => request()->attributes->get('company_hash')])}}">Twilio settings</a>
+        </div>
     </section>
 
 @endsection

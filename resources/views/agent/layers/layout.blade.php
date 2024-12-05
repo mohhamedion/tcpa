@@ -59,9 +59,15 @@
 
 @yield('content')
 
-@if(session()->exists('error'))
-<div class="alert alert-danger">{{session()->get('error')}}</div>
-@endif
+<div class="container mt-5">
+    @if(session()->exists('success'))
+        <div class="alert alert-success">{{session()->get('success')}}</div>
+    @endif
+
+    @if(session()->exists('error'))
+        <div class="alert alert-danger">{{session()->get('error')}}</div>
+    @endif
+</div>
 </body>
 </html>
 @stack("jquery")

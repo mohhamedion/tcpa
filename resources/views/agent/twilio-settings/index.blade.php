@@ -4,7 +4,7 @@
     <section class="container">
         <h2>Twilio settings</h2>
 
-        <p>You can access these data from your <a href="https://console.twilio.com/">twilio account</a></p>
+        <p>You can access these data from your <a href="https://console.twilio.com/" target="_blank">twilio account</a></p>
         <p>If you're using test credentials, you can use this magic number +15005550006 for success operations</p>
         <form action="{{route('twilio-settings.update',['company_hash' => request()->attributes->get('company_hash')])}}" method="post">
             @csrf
