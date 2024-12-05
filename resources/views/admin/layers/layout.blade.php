@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark ">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="/"><span class="badge badge-info">TCPA</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,22 +40,17 @@
     @if(Auth::check())
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-item nav-link" href="{{route('companies.index')}}">Companies</a>
+                <a class="nav-item nav-link" href="{{route('companies.index')}}">Companies</a>
             </div>
         </div>
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{route('logout')}}">Logout</a>
-            </div>
+        <!-- Move logout button outside of second collapse and apply ml-auto for left alignment -->
+        <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="{{route('logout')}}">Logout</a>
         </div>
-
-
     @endif
-
-
-
 </nav>
+
 @yield('content')
 
 @if(session()->exists('error'))
