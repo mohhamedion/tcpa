@@ -53,6 +53,7 @@ Route::middleware(['auth:web'])->middleware(SetCompanyHashPrefix::class)->prefix
         Route::get('/',[ClientController::class,'index'])->name('clients.index');
         Route::get('/create',[ClientController::class,'createForm'])->name('clients.createForm');
         Route::get('/{client}',[ClientController::class,'show'])->name('clients.show');
+        Route::get('/sent-verification-code/{client}',[ClientController::class,'sendVerificationCode'])->name('clients.send-verification-code');
 
         Route::post('/verify/{client}',[ClientController::class,'verify'])->name('clients.verify');
         Route::post('/',[ClientController::class,'store'])->name('clients.store');

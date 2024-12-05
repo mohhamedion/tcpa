@@ -26,9 +26,16 @@
 
 
         </div>
+            @if($client->status == 'created')
 
+                <form action="{{route('clients.send-verification-code',['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}">
+                    @csrf
+                    @method('POST')
+                    <br>
+                    <button class="btn btn-success">Resend sms code</button>
+                </form>
 
-            @if($client->status == 'waiting_for_verification')
+            @elseif($client->status == 'waiting_for_verification')
                 <form action="{{route('clients.verify', ['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}" method="post">
                     @csrf
                     @method('post')

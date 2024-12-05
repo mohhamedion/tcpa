@@ -48,6 +48,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        // todo: add policy
+
         /**
          * @var User $user
          */
@@ -67,7 +69,7 @@ class ClientController extends Controller
                 $this->clientService->sendVerificationCode($client);
             } catch (Throwable $exception) {
                 Log::error("Error while sending verification code: " . $exception->getMessage());
-                session()->flash('error', "Error while sending verification code");
+                session()->flash('error', "Error while sending verification code: ".$exception->getMessage());
             }
 
             return redirect()->to(route('clients.show', ['client' => $client->id,'company_hash' => $user->company->hash]));
@@ -81,11 +83,27 @@ class ClientController extends Controller
 
     }
 
+    public function sendVerificationCode(Request $request, string $companyHash, Client $client)
+    {
+
+        // todo: add policy
+
+        try {
+            $this->clientService->sendVerificationCode($client);
+        } catch (Throwable $exception) {
+            Log::error("Error while sending verification code: " . $exception->getMessage());
+            session()->flash('error', "Error while sending verification code: ".$exception->getMessage());
+        }
+
+        return redirect()->back();
+
+    }
     /**
      * @throws Throwable
      */
     public function verify(Request $request,string $companyHash, Client $client)
     {
+        // todo: add policy
 
         try {
             $this->clientService->verify($client, $request->input('verification_code'));

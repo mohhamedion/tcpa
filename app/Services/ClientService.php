@@ -42,6 +42,9 @@ class ClientService
      */
     public function sendVerificationCode(Client $client)
     {
+        if($client->status !== Statuses::CREATED->value){
+            throw new Exception('Client was already verified');
+        }
         $verificationCode = substr(str_shuffle("0123456789"), 0, 4);
         //todo get content template by company
         $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";

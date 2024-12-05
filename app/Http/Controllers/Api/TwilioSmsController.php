@@ -28,8 +28,8 @@ class TwilioSmsController extends Controller
      */
     public function receiveMessage(Request $request, $hash)
     {
-        Log::info(json_encode($request->all()));
 
+        /** @var Company $company */
         $company = Company::query()->where('hash',$hash)->firstOrFail();
 
         $messageContent = $request->input('Body');
@@ -43,7 +43,9 @@ class TwilioSmsController extends Controller
         {
             $this->clientService->clientDeclineTcpa($client);
         }else{
-            // other type of messages
+            //todo: handle other type of messages
+            Log::info(json_encode($request->all()));
+
         }
 
         return new MessagingResponse();
