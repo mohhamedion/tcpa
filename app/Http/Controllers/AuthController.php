@@ -14,22 +14,29 @@ class AuthController extends Controller
         return view('login.index');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
         return redirect(route('login'));
     }
 
-    public function auth(Request $request) {
+    public function auth(Request $request)
+    {
         $credentials = $request->only('name', 'password');
 
-        if(Auth::attempt($credentials))
-        {
+        if (Auth::attempt($credentials)) {
             /**
              * @var User $user
              */
             $user = Auth::user();
 
-            return redirect(route($user->isAdmin() ? 'admin.dashboard' : 'agent.dashboard'));
+            if ($user->isAdmin()) {
+                $route = route('admin.dashboard');
+            } else {
+                $route = route('agent.dashboard', ['company_hash' => $user->company->hash]);
+            }
+
+            return redirect($route);
         }
 
         return redirect(route('login'))->withErrors([

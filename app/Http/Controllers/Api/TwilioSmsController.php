@@ -26,9 +26,11 @@ class TwilioSmsController extends Controller
     /**
      * @throws Throwable
      */
-    public function receiveMessage(Request $request, Company $company)
+    public function receiveMessage(Request $request, string $hash)
     {
         Log::info(json_encode($request->all()));
+
+        $company = Company::query()->where('hash',$hash)->firstOrFail();
 
         $messageContent = $request->input('Body');
         $fromNumber = $request->input('From');

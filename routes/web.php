@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Agent\ClientController;
 use App\Http\Controllers\Agent\CompanySmsSettingsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\SetCompanyHashPrefix;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdminMiddleware;
 
@@ -42,7 +43,7 @@ Route::middleware(['auth:web', IsAdminMiddleware::class])->group(function()
 });
 
 
-Route::middleware(['auth:web'])->prefix('company')->group(function()
+Route::middleware(['auth:web'])->middleware(SetCompanyHashPrefix::class)->prefix('{company_hash}')->group(function()
 {
     Route::get('/', function () {
         return view('agent.index');

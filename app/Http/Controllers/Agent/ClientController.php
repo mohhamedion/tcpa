@@ -38,9 +38,9 @@ class ClientController extends Controller
         return view('agent.clients.update');
     }
 
-    public function show(Client $client)
+    public function show($companyHash, Client $client)
     {
-        return view('agent.clients.show')->with(['client' => $client]);
+        return view('agent.clients.show')->with(['client' => $client, 'company_hash' => $companyHash]);
     }
 
     /**
@@ -92,12 +92,11 @@ class ClientController extends Controller
 
             try {
                 $this->clientService->sendRequestToAcceptTCPA($client);
-            }catch (Throwable $exception)
-            {
+            } catch (Throwable $exception) {
                 session()->flash('error', "Error while sending sms to accept TCPA");
             }
 
-        }catch (Throwable $exception){
+        } catch (Throwable $exception) {
             session()->flash('error', "Error while verifying verification code");
         }
 

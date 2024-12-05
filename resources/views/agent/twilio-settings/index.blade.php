@@ -6,7 +6,7 @@
 
         <p>You can access these data from your <a href="https://console.twilio.com/">twilio account</a></p>
         <p>If you're using test credentials, you can use this magic number +15005550006 for success operations</p>
-        <form action="{{route('twilio-settings.update')}}" method="post">
+        <form action="{{route('twilio-settings.update',['company_hash' => request()->attributes->get('company_hash')])}}" method="post">
             @csrf
             @method('POST')
             <label for="">Twilio number</label>

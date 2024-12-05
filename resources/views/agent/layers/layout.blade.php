@@ -41,11 +41,11 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{route('clients.index')}}">Clients</a>
+                <a class="nav-item nav-link" href="{{route('clients.index',['company_hash' => request()->attributes->get('company_hash')])}}">Clients</a>
             </div>
 
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{route('twilio-settings.index')}}">Twilio settings</a>
+                <a class="nav-item nav-link" href="{{route('twilio-settings.index',['company_hash' => request()->attributes->get('company_hash')])}}">Twilio settings</a>
             </div>
 
         </div>

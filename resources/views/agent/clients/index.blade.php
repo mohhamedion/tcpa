@@ -4,7 +4,7 @@
     <section class="container">
         <h2>Clients</h2>
 
-        <a href="{{route('clients.createForm')}}" class="btn btn-success">{{__('Create new Client')}}</a>
+        <a href="{{route('clients.createForm',['company_hash' => request()->attributes->get('company_hash')])}}" class="btn btn-success">{{__('Create new Client')}}</a>
 
 
         <table class="table table-bordered table-hover">
@@ -21,7 +21,7 @@
             @foreach($clients as $client)
                 <tr class="text-white">
                     <th scope="row">{{$client->id}}</th>
-                    <td><a href="{{route('clients.show',['client' => $client->id])}}">{{$client->first_name.' '.$client->last_name}}</a></td>
+                    <td><a href="{{route('clients.show',['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}">{{$client->first_name.' '.$client->last_name}}</a></td>
                     <td>{{$client->phone_number}}</td>
                     <td>{{$client->status}}</td>
                 </tr>

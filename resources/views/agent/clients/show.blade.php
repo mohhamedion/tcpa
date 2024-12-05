@@ -51,13 +51,16 @@
                     <p>Client is verified</p>
                     <p>A new sms was send, to verify client acceptance to TCPA, waiting client response</p>
                 </div>
+
+                <a href="#" class="text-danger" onclick="fakeWebhook('YES')">Fake receiving webhook YES</a>
+                <br>
+                <a href="#" class="text-danger" onclick="fakeWebhook('NO')">Fake receiving webhook NO</a>
+
             @endif
         </div>
 
 
-        <a href="#" onclick="fakeWebhook('YES')">Fake receiving webhook YES</a>
-        <br>
-        <a href="#" onclick="fakeWebhook('NO')">Fake receiving webhook NO</a>
+
     </section>
     <script>
         // Define the data to send in the POST request
@@ -81,7 +84,7 @@
 
 
             // Make the POST request using fetch
-            fetch("{{route('twilio.webhook',['company' => $client->company_id])}}", {
+            fetch("{{route('twilio.webhook',['company_hash' => request()->attributes->get('company_hash')])}}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

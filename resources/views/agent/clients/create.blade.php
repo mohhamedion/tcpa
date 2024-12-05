@@ -5,7 +5,7 @@
 
         <div class="container mt-5">
             <h2 class="text-center">Client Information Form</h2>
-            <form action="{{route('clients.store')}}" method="post">
+            <form action="{{route('clients.store',['company_hash' => request()->attributes->get('company_hash')])}}" method="post">
                 @csrf
                 @method('POST')
                 <div class="mb-3">
