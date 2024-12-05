@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * @property int $id
  * @property string $name;
- * @property companySmsSettings smsSettings;
+ * @property CompanyTwilioSettings $companyTwilioSettings;
  */
 class Company extends Model
 {
-    public function smsSettings(): HasOne
+    public function companyTwilioSettings(): HasOne
     {
-        return $this->hasOne(CompanySmsSettings::class,'company_id','id');
+        return $this->hasOne(CompanyTwilioSettings::class,'company_id','id');
     }
 
 }

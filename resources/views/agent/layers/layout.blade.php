@@ -43,6 +43,11 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{route('clients.index')}}">Clients</a>
             </div>
+
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{route('twilio-settings.index')}}">Twilio settings</a>
+            </div>
+
         </div>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">

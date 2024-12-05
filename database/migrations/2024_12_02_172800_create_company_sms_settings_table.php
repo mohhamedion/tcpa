@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_sms_settings', function (Blueprint $table) {
+        Schema::create('company_twilio_settings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('from_number')->nullable()->unique();
-            $table->foreignId('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->string('token')->nullable();
+            $table->string('sid')->nullable();
+            $table->foreignId('company_id')->unique()->references('id')->on('companies')->onDelete('cascade');
         });
     }
 

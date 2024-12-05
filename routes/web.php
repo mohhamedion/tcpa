@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Agent\ClientController;
+use App\Http\Controllers\Agent\CompanySmsSettingsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdminMiddleware;
@@ -55,5 +56,8 @@ Route::middleware(['auth:web'])->prefix('company')->group(function()
         Route::post('/verify/{client}',[ClientController::class,'verify'])->name('clients.verify');
         Route::post('/',[ClientController::class,'store'])->name('clients.store');
     });
-
+    Route::group(['prefix' => 'twilio-settings'],function() {
+        Route::get('/',[CompanySmsSettingsController::class,'twilioSettings'])->name('twilio-settings.index');
+        Route::post('/update',[CompanySmsSettingsController::class,'update'])->name('twilio-settings.update');
+    });
 });

@@ -46,7 +46,7 @@ class ClientService
         //todo get content template by company
         $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
         $this->smsMessageService->store(
-            $client->company->smsSettings->from_number,
+            $client->company->companyTwilioSettings->from_number,
             $client->phone_number ,
             $template
         );
@@ -65,7 +65,7 @@ class ClientService
         $template = "Consent Request for John Smith at '{$client->phone_number}'.
 Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
         $this->smsMessageService->store(
-            $client->company->smsSettings->from_number,
+            $client->company->companyTwilioSettings->from_number,
             $client->phone_number ,
             $template
         );

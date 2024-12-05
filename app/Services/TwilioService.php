@@ -16,10 +16,8 @@ class TwilioService
     /**
      * @throws ConfigurationException
      */
-    public function __construct()
+    public function __construct($sid, $token)
     {
-        $sid = env('sid');
-        $token = env('token');
         $this->client = new Client($sid, $token);
     }
 
