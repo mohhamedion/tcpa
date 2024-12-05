@@ -10,4 +10,17 @@ enum Statuses: string
     case WAITING_FOR_CLIENT_AGREEMENT = 'waiting_for_client_agreement';
     case TCPA_ACCEPTED = 'tcpa_accepted';
     case TCPA_DECLINED = 'tcpa_declined';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::CREATED => 'Created',
+            self::WAITING_FOR_VERIFICATION => 'Waiting For Verification code',
+            self::NUMBER_VERIFIED => 'Number Verified',
+            self::WAITING_FOR_CLIENT_AGREEMENT => 'Waiting For Client Agreement',
+            self::TCPA_ACCEPTED => 'TCPA Accepted',
+            self::TCPA_DECLINED => 'TCPA Declined',
+        };
+    }
+
 }

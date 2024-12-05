@@ -18,7 +18,9 @@
                     <p class="card-text" id="clientLanguage">{{$client->language}}</p>
 
                     <b class="card-title">Status:</b>
-                    <p class="card-text" id="clientLanguage">{{$client->status}}</p>
+                    <p class="card-text" id="clientLanguage"><span class="badge badge-{{$client->status == \App\Enums\Client\Statuses::TCPA_ACCEPTED->value ? 'success' : 'warning'}}">
+                            {{\App\Enums\Client\Statuses::from($client->status)->label()}}
+                        </span></p>
 
                 </div>
 
@@ -32,7 +34,7 @@
                     @csrf
                     @method('POST')
                     <br>
-                    <button class="btn btn-success">Resend sms code</button>
+                    <button class="btn btn-success">Send sms code</button>
                 </form>
 
             @elseif($client->status == 'waiting_for_verification')
