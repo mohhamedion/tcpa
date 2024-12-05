@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\Client\Statuses;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @property int $id;
@@ -22,5 +24,10 @@ class Client extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    public function ScopeWaitingClientAgreement($query)
+    {
+        return $query->where('status',Statuses::WAITING_FOR_CLIENT_AGREEMENT->value);
     }
 }

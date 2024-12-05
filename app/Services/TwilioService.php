@@ -11,7 +11,7 @@ use Twilio\Rest\Client;
 class TwilioService
 {
 
-    public Client $client;
+    private Client $client;
 
     /**
      * @throws ConfigurationException

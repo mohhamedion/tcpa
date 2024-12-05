@@ -6,6 +6,7 @@ use App\Enums\Client\Statuses;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
+use Exception;
 use Throwable;
 
 
@@ -81,11 +82,30 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
      */
     public function verify(Client $client, $verificationCode)
     {
-        if($client->verification_code === $verificationCode)
+        if($client->verification_code != $verificationCode)
         {
-            $client->status = Statuses::NUMBER_VERIFIED->value;
+            throw new Exception("Verification code incorrect"); // todo: create unique exception
         }
 
+        $client->status = Statuses::NUMBER_VERIFIED->value;
+        $client->saveOrFail();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function clientAcceptTcpa(Client $client)
+    {
+        $client->status = Statuses::TCPA_ACCEPTED->value;
+        $client->saveOrFail();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function clientDeclineTcpa(Client $client)
+    {
+        $client->status = Statuses::TCPA_DECLINED->value;
         $client->saveOrFail();
     }
 

@@ -16,6 +16,10 @@
 
                     <b class="card-title">Language:</b>
                     <p class="card-text" id="clientLanguage">{{$client->language}}</p>
+
+                    <b class="card-title">Status:</b>
+                    <p class="card-text" id="clientLanguage">{{$client->status}}</p>
+
                 </div>
 
 
@@ -51,6 +55,53 @@
         </div>
 
 
+        <a href="#" onclick="fakeWebhook('YES')">Fake receiving webhook YES</a>
+        <br>
+        <a href="#" onclick="fakeWebhook('NO')">Fake receiving webhook NO</a>
     </section>
+    <script>
+        // Define the data to send in the POST request
+
+
+        function fakeWebhook(answer){
+            const generateRandomValue = (prefix = '') => prefix + Math.random().toString(36).substring(2, 10);
+
+            const data = {
+                MessageSid: generateRandomValue('MSG'),
+                SmsSid: generateRandomValue('SMS'),
+                SmsMessageSid: generateRandomValue('SMSMSG'),
+                AccountSid: generateRandomValue('ACCT'),
+                MessagingServiceSid: generateRandomValue('MSS'),
+                From: '{{$client->phone_number}}', // Replace with a fixed or dynamic value
+                To: '+0987654321',   // Replace with a fixed or dynamic value
+                Body: answer, // Replace with desired content
+                NumMedia: Math.floor(Math.random() * 10).toString(), // Random number as a string
+                NumSegments: Math.floor(Math.random() * 5).toString(), // Random number as a string
+            };
+
+
+            // Make the POST request using fetch
+            fetch("{{route('twilio.webhook',['company' => $client->company_id])}}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json(); // Assuming the server returns a JSON response
+                })
+                .then(result => {
+                    console.log('Success:', result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
 
 @endsection

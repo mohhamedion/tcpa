@@ -9,4 +9,5 @@ enum Statuses: string
     case NUMBER_VERIFIED = 'number_verified';
     case WAITING_FOR_CLIENT_AGREEMENT = 'waiting_for_client_agreement';
     case TCPA_ACCEPTED = 'tcpa_accepted';
+    case TCPA_DECLINED = 'tcpa_declined';
 }
