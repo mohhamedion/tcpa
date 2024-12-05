@@ -108,6 +108,7 @@
                 })
                 .then(result => {
                     console.log('Success:', result);
+                    location.reload()
                 })
                 .catch(error => {
                     console.error('Error:', error);
