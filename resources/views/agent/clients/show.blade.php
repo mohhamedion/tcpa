@@ -29,7 +29,7 @@
 
 
             @if($client->status == 'waiting_for_verification')
-                <form action="{{route('clients.verify', ['client' => $client->id])}}" method="post">
+                <form action="{{route('clients.verify', ['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}" method="post">
                     @csrf
                     @method('post')
                     <p> An sms code was send to client phone number {{$client->phone_number}} for verification</p>

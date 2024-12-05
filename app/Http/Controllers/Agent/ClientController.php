@@ -70,7 +70,7 @@ class ClientController extends Controller
                 session()->flash('error', "Error while sending verification code");
             }
 
-            return redirect()->to(route('clients.show', ['client' => $client->id]));
+            return redirect()->to(route('clients.show', ['client' => $client->id,'company_hash' => $user->company->hash]));
 
         } catch (Throwable $exception) {
             Log::error("Error while creating client: " . $exception->getMessage());
@@ -84,7 +84,7 @@ class ClientController extends Controller
     /**
      * @throws Throwable
      */
-    public function verify(Request $request, Client $client)
+    public function verify(Request $request,string $companyHash, Client $client)
     {
 
         try {

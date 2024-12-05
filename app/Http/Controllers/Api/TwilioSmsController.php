@@ -26,7 +26,7 @@ class TwilioSmsController extends Controller
     /**
      * @throws Throwable
      */
-    public function receiveMessage(Request $request, string $hash)
+    public function receiveMessage(Request $request, $hash)
     {
         Log::info(json_encode($request->all()));
 

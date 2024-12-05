@@ -32,8 +32,11 @@ class AppServiceProvider extends ServiceProvider
             $user = Auth::user();
             if(!$user){
                 $request = $app->make(Request::class);
-                $companyName = $request->route('company_name'); // Get company_name from the route
-                $company = Company::query()->where('name', $companyName)->firstOrFail();
+                $hash = $request->route('company_hash'); // Get company_name from the route
+                $company = Company::query()->where('hash', $hash)->first();
+                if(!$company){
+                    throw new \Exception('Company not found');
+                }
             }else{
                 $company = $user->company;
             }
