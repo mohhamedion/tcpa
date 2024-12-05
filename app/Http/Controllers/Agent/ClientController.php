@@ -115,7 +115,7 @@ class ClientController extends Controller
             }
 
         } catch (Throwable $exception) {
-            session()->flash('error', "Error while verifying verification code");
+            session()->flash('error', "Error while verifying verification code: ". $exception->getMessage());
         }
 
         return redirect()->back();

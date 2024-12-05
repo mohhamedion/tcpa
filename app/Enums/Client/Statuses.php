@@ -18,8 +18,8 @@ enum Statuses: string
             self::WAITING_FOR_VERIFICATION => 'Waiting For Verification code',
             self::NUMBER_VERIFIED => 'Number Verified',
             self::WAITING_FOR_CLIENT_AGREEMENT => 'Waiting For Client Agreement',
-            self::TCPA_ACCEPTED => 'TCPA Accepted',
-            self::TCPA_DECLINED => 'TCPA Declined',
+            self::TCPA_ACCEPTED => 'TCPA Accepted By Client',
+            self::TCPA_DECLINED => 'TCPA Declined By Client',
         };
     }
 
