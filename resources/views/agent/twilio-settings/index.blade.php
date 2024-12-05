@@ -16,6 +16,17 @@
             <label for="">Sid</label>
             <input type="text" class="form-control" name="sid" value="{{$companyTwilioSettings?->sid}}" placeholder="Enter Sid from your twilio account" required>
 
+
+            <div class="alert alert-info mt-5" role="alert">
+                <h4 class="alert-heading">Your webhook</h4>
+                <p>Copy your webhook and place it in your Twilio account:</p>
+                <hr>
+                <p class="mb-0">
+                    <code>{{route('twilio.webhook',['company_hash' => request()->attributes->get('company_hash')])}}</code>
+                </p>
+            </div>
+
+
             <br>
             <button class="btn btn-primary">Save</button>
         </form>
