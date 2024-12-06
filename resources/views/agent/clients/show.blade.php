@@ -41,17 +41,17 @@
                 <form action="{{route('clients.verify', ['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}" method="post">
                     @csrf
                     @method('post')
-                    <p> An sms code was send to client phone number {{$client->phone_number}} for verification</p>
+                    <div class="mt-2">
+                        <p>
+                            An SMS code has been sent to the client's phone number {{$client->phone_number}} for verification.
 
-                    <p>
-                        Please ask the client to provide the sms code, then submit the code to verify
-                    </p>
+                            Please ask the client to provide the SMS code and submit it for verification. </p>
+                    </div>
 
                     <input type="text" class="form-control" name="verification_code" placeholder="example:  1010">
 
-                    <div>
+                    <div class="mt-2">
                         <button class="btn btn-primary">Verify</button>
-
                     </div>
                 </form>
 
