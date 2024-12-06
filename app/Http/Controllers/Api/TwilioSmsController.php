@@ -26,7 +26,7 @@ class TwilioSmsController extends Controller
     /**
      * @throws Throwable
      */
-    public function receiveMessage(Request $request, $hash)
+    public function receiveMessage(Request $request, $hash): MessagingResponse
     {
 
         try {
