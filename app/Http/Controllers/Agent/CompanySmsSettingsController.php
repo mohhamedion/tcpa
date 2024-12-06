@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TwilioSettings\CreateOrUpdateCompanyTwilioSettings;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\CompanyTwilioSettingsService;
@@ -27,7 +28,7 @@ class CompanySmsSettingsController extends Controller
     /**
      * @throws Throwable
      */
-    public function update(Request $request)
+    public function createOrUpdate(CreateOrUpdateCompanyTwilioSettings $request)
     {
         try {
             /**

@@ -67,6 +67,6 @@ Route::middleware(['auth:web'])->middleware(SetCompanyHashPrefix::class)->prefix
 
     Route::group(['prefix' => 'twilio-settings'],function() {
         Route::get('/',[CompanySmsSettingsController::class,'twilioSettings'])->name('twilio-settings.index');
-        Route::post('/update',[CompanySmsSettingsController::class,'update'])->name('twilio-settings.update');
+        Route::post('/update',[CompanySmsSettingsController::class, 'createOrUpdate'])->name('twilio-settings.update');
     });
 });
