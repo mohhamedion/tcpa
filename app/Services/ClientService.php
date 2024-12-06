@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -155,6 +156,28 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
     public function delete(Client $client): void
     {
         $client->deleteOrFail();
+    }
+
+    public function index(User $user = null, int $page = 1, string $status = null, string $date = null, string $phoneNumber = null): LengthAwarePaginator
+    {
+        $query = Client::query();
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+        if ($date) {
+            $query->whereDate('created_at', $date);
+        }
+        if ($phoneNumber) {
+            $query->where('phone_number', 'like', '%' . $phoneNumber . '%');
+        }
+
+        if ($user) {
+            $query->where('agent_id', $user->id);
+        }
+
+        return $query->forPage($page)->paginate(1);
+
     }
 
 

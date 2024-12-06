@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Services\TwilioService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Paginator::useBootstrap();
 
         $this->app->singleton(TwilioService::class, function ($app) {
             /**

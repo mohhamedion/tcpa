@@ -24,7 +24,13 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $clients = Client::query()->where('agent_id', $request->user()->id)->get();
+        $clients = $this->clientService->index(
+            $request->user(),
+            $request->input('page',1),
+            $request->input('status'),
+            $request->input('date'),
+            $request->input('phone_number')
+        );
         return view('agent.clients.index')->with(['clients' => $clients]);
     }
 
