@@ -39,6 +39,9 @@ class ClientService
         $client->language = $language;
         $client->status = Statuses::CREATED->value; //todo move to enum
         $client->saveOrFail();
+
+        Log::info("New client {$client->first_name} {$client->last_name} created",['client_id' => $client->id]);
+
         return $client;
     }
 
@@ -62,6 +65,7 @@ class ClientService
             try{
                 $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name,'code' => $verificationCode]);
             }catch (Throwable $exception){
+                Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage(),['client_id' => $client->id]);
                 $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
             }
             $this->smsMessageService->sendSmsMessage(
@@ -70,11 +74,12 @@ class ClientService
                 $template
             );
 
+            Log::info("sending verification code to client {$client->first_name} {$client->last_name}",['client_id' => $client->id]);
+
             DB::commit();
         } catch (Throwable $exception) {
             DB::rollBack();
-            Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage());
-
+            throw $exception;
         }
 
 
@@ -102,6 +107,9 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
 
         $client->status = Statuses::WAITING_FOR_CLIENT_AGREEMENT->value;
         $client->saveOrFail();
+
+        Log::info("sending sms to  {$client->first_name} {$client->last_name} " ,['client_id' => $client->id]);
+
     }
 
     /**
