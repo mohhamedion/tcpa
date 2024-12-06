@@ -20,7 +20,7 @@ class SmsMessageService
     /**
      * @throws Throwable
      */
-    public function store(string $from, string $to, string $content): SmsMessage
+    public function sendSmsMessage(string $from, string $to, string $content): SmsMessage
     {
 
         try {
