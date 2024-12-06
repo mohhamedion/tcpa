@@ -49,13 +49,12 @@ class ClientController extends Controller
     /**
      * @throws Throwable
      */
-    public function delete($companyHash,Client $client)
+    public function delete($companyHash, Client $client)
     {
         try {
             $this->clientService->delete($client);
-        }catch (Throwable $exception)
-        {
-            Log::error("Error while deleting client: ".$exception->getMessage());
+        } catch (Throwable $exception) {
+            Log::error("Error while deleting client: " . $exception->getMessage());
             session()->flash('error', $exception->getMessage());
         }
 
@@ -88,10 +87,10 @@ class ClientController extends Controller
                 $this->clientService->sendVerificationCode($client);
             } catch (Throwable $exception) {
                 Log::error("Error while sending verification code: " . $exception->getMessage());
-                session()->flash('error', "Error while sending verification code: ".$exception->getMessage());
+                session()->flash('error', "Error while sending verification code: " . $exception->getMessage());
             }
 
-            return redirect()->to(route('clients.show', ['client' => $client->id,'company_hash' => $user->company->hash]));
+            return redirect()->to(route('clients.show', ['client' => $client->id, 'company_hash' => $user->company->hash]));
 
         } catch (Throwable $exception) {
             Log::error("Error while creating client: " . $exception->getMessage());
@@ -104,23 +103,22 @@ class ClientController extends Controller
 
     public function sendVerificationCode(Request $request, string $companyHash, Client $client)
     {
-
         // todo: add policy
-
         try {
             $this->clientService->sendVerificationCode($client);
         } catch (Throwable $exception) {
             Log::error("Error while sending verification code: " . $exception->getMessage());
-            session()->flash('error', "Error while sending verification code: ".$exception->getMessage());
+            session()->flash('error', "Error while sending verification code: " . $exception->getMessage());
         }
 
         return redirect()->back();
 
     }
+
     /**
      * @throws Throwable
      */
-    public function verify(VerifySmsCodeRequest $request,string $companyHash, Client $client)
+    public function verify(VerifySmsCodeRequest $request, string $companyHash, Client $client)
     {
         // todo: add policy
 
@@ -134,7 +132,7 @@ class ClientController extends Controller
             }
 
         } catch (Throwable $exception) {
-            session()->flash('error', "Error while verifying verification code: ". $exception->getMessage());
+            session()->flash('error', "Error while verifying verification code: " . $exception->getMessage());
         }
 
         return redirect()->back();
