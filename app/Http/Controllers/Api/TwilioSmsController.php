@@ -30,13 +30,17 @@ class TwilioSmsController extends Controller
     {
 
         try {
-            /** @var Company $company */
+            /**
+             * @var Company $company
+             */
             $company = Company::query()->where('hash', $hash)->firstOrFail();
 
             $messageContent = $request->input('Body');
             $fromNumber = $request->input('From');
 
-            /** @var Client $client */
+            /**
+             * @var Client $client
+             */
             $client = Client::query()->waitingClientAgreement()->where('company_id', $company->id)->where('phone_number', $fromNumber)->firstOrFail();
             Log::info("Incoming SMS message from $fromNumber, content: {$messageContent}", ['client_id' => $client->id]);
 
@@ -49,8 +53,8 @@ class TwilioSmsController extends Controller
                 Log::info(json_encode($request->all()));
             }
         } catch (Throwable $exception) {
-            Log::error("Error while reading message: " . $exception->getMessage(), ['client_id' => $client->id]);
-            Log::info("Request body : " . json_encode($request->all()), ['client_id' => $client->id]);
+            Log::error("Error while reading message: " . $exception->getMessage() );
+            Log::info("Request body : " . json_encode($request->all()));
         }
 
         return new MessagingResponse();
