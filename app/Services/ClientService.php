@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -52,22 +53,31 @@ class ClientService
         $verificationCode = substr(str_shuffle("0123456789"), 0, 4);
 
 
-        $client->verification_code = $verificationCode;
-        $client->status = Statuses::WAITING_FOR_VERIFICATION->value;
-        $client->saveOrFail();
-
         try {
-            $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name,'code' => $verificationCode]);
+            DB::beginTransaction();
+            $client->verification_code = $verificationCode;
+            $client->status = Statuses::WAITING_FOR_VERIFICATION->value;
+            $client->saveOrFail();
+
+            try{
+                $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name,'code' => $verificationCode]);
+            }catch (Throwable $exception){
+                $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
+            }
+            $this->smsMessageService->sendSmsMessage(
+                $client->company->companyTwilioSettings->from_number,
+                $client->phone_number,
+                $template
+            );
+
+            DB::commit();
         } catch (Throwable $exception) {
+            DB::rollBack();
             Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage());
-            $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
+
         }
 
-        $this->smsMessageService->store(
-            $client->company->companyTwilioSettings->from_number,
-            $client->phone_number,
-            $template
-        );
+
     }
 
     /**
@@ -84,7 +94,7 @@ class ClientService
 Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
         }
 
-        $this->smsMessageService->store(
+        $this->smsMessageService->sendSmsMessage(
             $client->company->companyTwilioSettings->from_number,
             $client->phone_number,
             $template
