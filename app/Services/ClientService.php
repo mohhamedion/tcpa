@@ -37,7 +37,7 @@ class ClientService
         $client->phone_number = $phoneNumber;
         $client->agent_id = $user->id;
         $client->language = $language;
-        $client->status = Statuses::CREATED->value; //todo move to enum
+        $client->status = Statuses::CREATED->value;
         $client->saveOrFail();
 
         Log::info("New client {$client->first_name} {$client->last_name} created", ['client_id' => $client->id]);

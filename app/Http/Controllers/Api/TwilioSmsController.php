@@ -29,23 +29,28 @@ class TwilioSmsController extends Controller
     public function receiveMessage(Request $request, $hash)
     {
 
-        /** @var Company $company */
-        $company = Company::query()->where('hash',$hash)->firstOrFail();
+        try {
+            /** @var Company $company */
+            $company = Company::query()->where('hash', $hash)->firstOrFail();
 
-        $messageContent = $request->input('Body');
-        $fromNumber = $request->input('From');
+            $messageContent = $request->input('Body');
+            $fromNumber = $request->input('From');
 
-        $client = Client::query()->waitingClientAgreement()->where('company_id',$company->id)->where('phone_number',$fromNumber)->firstOrFail();
+            /** @var Client $client */
+            $client = Client::query()->waitingClientAgreement()->where('company_id', $company->id)->where('phone_number', $fromNumber)->firstOrFail();
+            Log::info("Incoming SMS message from $fromNumber, content: {$messageContent}", ['client_id' => $client->id]);
 
-        if($messageContent === "YES"){
-            $this->clientService->clientAcceptTcpa($client);
-        }else if( $messageContent === "NO")
-        {
-            $this->clientService->clientDeclineTcpa($client);
-        }else{
-            //todo: handle other type of messages
-            Log::info(json_encode($request->all()));
-
+            if ($messageContent === "YES") {
+                $this->clientService->clientAcceptTcpa($client);
+            } else if ($messageContent === "NO") {
+                $this->clientService->clientDeclineTcpa($client);
+            } else {
+                //todo: handle other type of messages
+                Log::info(json_encode($request->all()));
+            }
+        } catch (Throwable $exception) {
+            Log::error("Error while reading message: " . $exception->getMessage(), ['client_id' => $client->id]);
+            Log::info("Request body : " . json_encode($request->all()), ['client_id' => $client->id]);
         }
 
         return new MessagingResponse();
