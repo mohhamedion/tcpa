@@ -14,27 +14,44 @@ use Illuminate\Support\Str;
  * @property string $name;
  * @property string $hash;
  * @property CompanyTwilioSettings $companyTwilioSettings;
- * @property SmsContentTemplate|Collection $smsContentTemplate;
+ * @property SmsContentTemplate[]|Collection $smsContentTemplate;
+ * @property SmsMessage[]|Collection $smsMessages;
  */
 class Company extends Model
 {
+    /**
+     * @return HasOne
+     */
     public function companyTwilioSettings(): HasOne
     {
-        return $this->hasOne(CompanyTwilioSettings::class,'company_id','id');
+        return $this->hasOne(CompanyTwilioSettings::class, 'company_id', 'id');
     }
 
+    /**
+     * @return HasMany
+     */
     public function smsContentTemplate(): HasMany
     {
-        return $this->hasMany(SmsContentTemplate::class,'company_id','id');
+        return $this->hasMany(SmsContentTemplate::class, 'company_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function smsMessages(): HasMany
+    {
+        return $this->hasMany(SmsMessage::class, 'company_id', 'id');
     }
 
 
-    // Event listener for model creation
+    /**
+     * Event listener for model creation
+     */
     protected static function booted()
     {
         static::creating(function ($model) {
             if (!$model->hash) {
-                $model->hash = (string) Str::uuid();
+                $model->hash = (string)Str::uuid();
             }
         });
     }

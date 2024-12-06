@@ -70,7 +70,7 @@ class ClientService
                 Log::error("Error while getting template, switching to default template. Error: " . $exception->getMessage(), ['client_id' => $client->id]);
                 $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
             }
-            $this->smsMessageService->sendSmsMessage(
+            $this->smsMessageService->sendSmsMessage($client->company,
                 $client->company->companyTwilioSettings->from_number,
                 $client->phone_number,
                 $template
@@ -101,7 +101,7 @@ class ClientService
 Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
         }
 
-        $this->smsMessageService->sendSmsMessage(
+        $this->smsMessageService->sendSmsMessage($client->company,
             $client->company->companyTwilioSettings->from_number,
             $client->phone_number,
             $template

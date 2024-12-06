@@ -51,6 +51,11 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{route('sms-content-template.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Sms Template</a>
             </div>
+
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{route('sms-messages.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Sms Messages History</a>
+            </div>
+
         </div>
 
         <!-- Move logout button outside of second collapse -->

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Models\Company;
 use App\Models\SmsMessage;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -20,7 +21,7 @@ class SmsMessageService
     /**
      * @throws Throwable
      */
-    public function sendSmsMessage(string $from, string $to, string $content): SmsMessage
+    public function sendSmsMessage(Company $company, string $from, string $to, string $content): SmsMessage
     {
 
         try {
@@ -31,6 +32,7 @@ class SmsMessageService
             $smsMessage->content = $content;
             $smsMessage->sms_service = $this->smsService::class;
             $smsMessage->status = 'success';
+            $smsMessage->company_id = $company->id;
             $smsMessage->saveOrFail();
         }catch (Throwable $exception){
             Log::info("Error while sending sms message from {$from} to {$to}. : ". $exception->getMessage());

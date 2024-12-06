@@ -25,6 +25,8 @@ return new class extends Migration
 
             $table->string('status');
 
+            $table->foreignId('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
