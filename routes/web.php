@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Agent\ClientController;
 use App\Http\Controllers\Agent\CompanySmsSettingsController;
+use App\Http\Controllers\Agent\SmsTemplateController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SetCompanyHashPrefix;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,12 @@ Route::middleware(['auth:web'])->middleware(SetCompanyHashPrefix::class)->prefix
         Route::post('/verify/{client}',[ClientController::class,'verify'])->name('clients.verify');
         Route::post('/',[ClientController::class,'store'])->name('clients.store');
     });
+
+    Route::group(['prefix' => 'sms-content-template'],function() {
+        Route::get('/',[SmsTemplateController::class,'index'])->name('sms-content-template.index');
+        Route::post('/create-or-update',[SmsTemplateController::class,'createOrUpdate'])->name('sms-content-template.create-or-update');
+    });
+
     Route::group(['prefix' => 'twilio-settings'],function() {
         Route::get('/',[CompanySmsSettingsController::class,'twilioSettings'])->name('twilio-settings.index');
         Route::post('/update',[CompanySmsSettingsController::class,'update'])->name('twilio-settings.update');

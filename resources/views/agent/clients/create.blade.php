@@ -24,11 +24,9 @@
                     <label for="language" class="form-label">Preferred Language</label>
                     <select class="form-select form-control" id="language" name="language" required>
                         <option value="" disabled selected>Select language</option>
-                        <option value="english">English</option>
-                        <option value="arabic">Arabic</option>
-                        <option value="french">French</option>
-                        <option value="spanish">Spanish</option>
-                        <option value="other">Other</option>
+                        @foreach(\App\Enums\SmsContentTemplate\AvailableLanguages::cases() as $language)
+                            <option value="{{$language->value}}">{{$language->label()}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

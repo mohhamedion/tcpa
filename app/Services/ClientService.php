@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Enums\Client\Statuses;
+use App\Enums\SmsContentTemplate\AvailableTypes;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 
@@ -14,10 +16,12 @@ class ClientService
 {
 
     public SmsMessageService $smsMessageService;
+    public SmsContentTemplateService $smsContentTemplateService;
 
-    public function __construct(SmsMessageService $smsMessageService)
+    public function __construct(SmsMessageService $smsMessageService, SmsContentTemplateService $smsContentTemplateService)
     {
         $this->smsMessageService = $smsMessageService;
+        $this->smsContentTemplateService = $smsContentTemplateService;
     }
 
     /**
@@ -42,21 +46,28 @@ class ClientService
      */
     public function sendVerificationCode(Client $client)
     {
-        if($client->status !== Statuses::CREATED->value){
+        if ($client->status !== Statuses::CREATED->value) {
             throw new Exception('Client was already verified');
         }
         $verificationCode = substr(str_shuffle("0123456789"), 0, 4);
-        //todo get content template by company
-        $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
-        $this->smsMessageService->store(
-            $client->company->companyTwilioSettings->from_number,
-            $client->phone_number ,
-            $template
-        );
+
 
         $client->verification_code = $verificationCode;
         $client->status = Statuses::WAITING_FOR_VERIFICATION->value;
         $client->saveOrFail();
+
+        try {
+            $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name,'code' => $verificationCode]);
+        } catch (Throwable $exception) {
+            Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage());
+            $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
+        }
+
+        $this->smsMessageService->store(
+            $client->company->companyTwilioSettings->from_number,
+            $client->phone_number,
+            $template
+        );
     }
 
     /**
@@ -64,12 +75,18 @@ class ClientService
      */
     public function sendRequestToAcceptTCPA(Client $client)
     {
-        //todo get content template by company
-        $template = "Consent Request for John Smith at '{$client->phone_number}'.
+        try {
+            $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::TcpaAgreement->value, ['company_name' => $client->company->name]);
+
+        } catch (Throwable $exception) {
+            Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage());
+            $template = "Consent Request for John Smith at '{$client->phone_number}'.
 Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
+        }
+
         $this->smsMessageService->store(
             $client->company->companyTwilioSettings->from_number,
-            $client->phone_number ,
+            $client->phone_number,
             $template
         );
 
@@ -85,8 +102,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
      */
     public function verify(Client $client, $verificationCode)
     {
-        if($client->verification_code != $verificationCode)
-        {
+        if ($client->verification_code != $verificationCode) {
             throw new Exception("Verification code incorrect"); // todo: create unique exception
         }
 
