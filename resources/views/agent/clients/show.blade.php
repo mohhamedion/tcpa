@@ -91,7 +91,6 @@
                 NumSegments: Math.floor(Math.random() * 5).toString(), // Random number as a string
             };
 
-
             // Make the POST request using fetch
             fetch("{{route('twilio.webhook',['company_hash' => request()->attributes->get('company_hash')])}}", {
                 method: 'POST',
@@ -104,15 +103,18 @@
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
+
                     return response.json(); // Assuming the server returns a JSON response
                 })
                 .then(result => {
                     console.log('Success:', result);
-                    location.reload()
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            location.reload()
+
         }
 
     </script>

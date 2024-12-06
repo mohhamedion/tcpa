@@ -58,6 +58,10 @@ Route::middleware(['auth:web'])->middleware(SetCompanyHashPrefix::class)->prefix
 
         Route::post('/verify/{client}',[ClientController::class,'verify'])->name('clients.verify');
         Route::post('/',[ClientController::class,'store'])->name('clients.store');
+
+        Route::delete('/{client}',[ClientController::class,'delete'])->name('clients.delete');
+
+
     });
 
     Route::group(['prefix' => 'sms-content-template'],function() {

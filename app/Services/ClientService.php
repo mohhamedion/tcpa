@@ -139,4 +139,13 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
     }
 
 
+    /**
+     * @throws Throwable
+     */
+    public function delete(Client $client)
+    {
+        $client->deleteOrFail();
+    }
+
+
 }

@@ -45,6 +45,23 @@ class ClientController extends Controller
         return view('agent.clients.show')->with(['client' => $client, 'company_hash' => $companyHash]);
     }
 
+
+    /**
+     * @throws Throwable
+     */
+    public function delete($companyHash,Client $client)
+    {
+        try {
+            $this->clientService->delete($client);
+        }catch (Throwable $exception)
+        {
+            Log::error("Error while deleting client: ".$exception->getMessage());
+            session()->flash('error', $exception->getMessage());
+        }
+
+        return redirect()->back();
+    }
+
     /**
      * @throws Throwable
      */
