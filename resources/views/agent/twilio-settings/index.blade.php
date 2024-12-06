@@ -22,7 +22,8 @@
                 <p>Copy your webhook and place it in your Twilio account:</p>
                 <hr>
                 <p class="mb-0">
-                    <code>{{route('twilio.webhook',['company_hash' => request()->attributes->get('company_hash')])}}</code>
+                    <code id="webhook-link">{{route('twilio.webhook',['company_hash' => request()->attributes->get('company_hash')])}}</code>
+                    <a  class="btn btn-sm btn-primary ml-2" onclick="copyToClipboard()">Copy</a>
                 </p>
             </div>
 
@@ -33,5 +34,14 @@
 
     </section>
 
-
+    <script>
+        function copyToClipboard() {
+            const link = document.getElementById('webhook-link').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Webhook link copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+    </script>
 @endsection

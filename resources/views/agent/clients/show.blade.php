@@ -55,10 +55,18 @@
                     </div>
                 </form>
 
+                <form action="{{route('clients.send-verification-code',['client' => $client->id,'company_hash' => request()->attributes->get('company_hash')])}}">
+                    @csrf
+                    @method('POST')
+                    <br>
+                    <button class="btn btn-success">Resend sms code</button>
+                </form>
+
+
             @elseif($client->status == 'waiting_for_client_agreement')
                 <div class="alert alert-success">
-                    <p>Client is verified</p>
-                    <p>A new sms was send, to verify client acceptance to TCPA, waiting client response</p>
+                    <p>Client is verified.</p>
+                    <p>A new SMS was sent to confirm the client's acceptance of the TCPA. Awaiting the client's response.</p>
                 </div>
 
                 <a href="#" class="text-danger" onclick="fakeWebhook('YES')">Fake receiving webhook YES</a>

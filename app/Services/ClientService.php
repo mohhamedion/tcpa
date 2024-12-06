@@ -50,9 +50,11 @@ class ClientService
      */
     public function sendVerificationCode(Client $client): void
     {
-        if ($client->status !== Statuses::CREATED->value) {
+        if ($client->status == Statuses::NUMBER_VERIFIED->value) {
             throw new Exception('Client was already verified');
         }
+
+
         $verificationCode = substr(str_shuffle("0123456789"), 0, 4);
 
 
