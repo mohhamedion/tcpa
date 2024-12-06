@@ -4,8 +4,7 @@
     <section class="container">
 
         <div class="alert alert-info">
-
-            Use dynamic fields, such as [company_name] or [code]. The system will replace them with real data within sms message
+            Use dynamic fields like [company_name] or [code]. The system will replace them with actual data in the SMS message.
         </div>
         @foreach(\App\Enums\SmsContentTemplate\AvailableLanguages::cases() as $language)
             <form
