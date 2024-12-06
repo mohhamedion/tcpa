@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\StoreClientRequest;
+use App\Http\Requests\Client\VerifySmsCodeRequest;
 use App\Models\Client;
 use App\Models\User;
 use App\Services\ClientService;
@@ -46,7 +48,7 @@ class ClientController extends Controller
     /**
      * @throws Throwable
      */
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
         // todo: add policy
 
@@ -101,7 +103,7 @@ class ClientController extends Controller
     /**
      * @throws Throwable
      */
-    public function verify(Request $request,string $companyHash, Client $client)
+    public function verify(VerifySmsCodeRequest $request,string $companyHash, Client $client)
     {
         // todo: add policy
 
