@@ -5,6 +5,12 @@
 
         <div class="alert alert-info">
             Use dynamic fields like [company_name] or [code]. The system will replace them with actual data in the SMS message.
+
+            <p>Available fields: <br>
+                <b>[company_name]</b><br>
+                <b>[to_phone_number]</b><br>
+                <b>[code]</b><br>
+                <b>[client_name]</b></p>
         </div>
         @foreach(\App\Enums\SmsContentTemplate\AvailableLanguages::cases() as $language)
             <form
