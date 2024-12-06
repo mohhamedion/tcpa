@@ -83,13 +83,6 @@ class ClientController extends Controller
                 , $request->input('language')
             );
 
-            try {
-                $this->clientService->sendVerificationCode($client);
-            } catch (Throwable $exception) {
-                Log::error("Error while sending verification code: " . $exception->getMessage());
-                session()->flash('error', "Error while sending verification code: " . $exception->getMessage());
-            }
-
             return redirect()->to(route('clients.show', ['client' => $client->id, 'company_hash' => $user->company->hash]));
 
         } catch (Throwable $exception) {
