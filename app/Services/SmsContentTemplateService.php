@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\SmsContentTemplate\AvailableTypes;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\SmsContentTemplate;
@@ -33,11 +32,11 @@ class SmsContentTemplateService
     }
 
 
-    public function getParsedTemplate(Client $client,$type , array $customFields): string
+    public function getParsedTemplate(Client $client, string $type, array $customFields): string
     {
         $client->loadMissing('company.smsContentTemplate');
 
-        $template = $client->company->smsContentTemplate->where('type' , $type)->where('language', $client->language)->first();
+        $template = $client->company->smsContentTemplate->where('type', $type)->where('language', $client->language)->first();
 
         $message = $template->template;
 

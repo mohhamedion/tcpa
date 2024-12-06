@@ -66,7 +66,15 @@ class ClientService
             $client->saveOrFail();
 
             try {
-                $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name, 'code' => $verificationCode]);
+
+                $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value,
+                    [
+                        'company_name' => $client->company->name,
+                        'code' => $verificationCode,
+                        'client_name' => $client->first_name." ".$client->last_name,
+                        'to_phone_number' => $client->phone_number,
+                    ]
+                );
             } catch (Throwable $exception) {
                 Log::error("Error while getting template, switching to default template. Error: " . $exception->getMessage(), ['client_id' => $client->id]);
                 $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
@@ -94,7 +102,14 @@ class ClientService
     public function sendRequestToAcceptTCPA(Client $client): void
     {
         try {
-            $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::TcpaAgreement->value, ['company_name' => $client->company->name]);
+            $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::TcpaAgreement->value,
+                [
+                    'company_name' => $client->company->name,
+                    'client_name' => $client->first_name." ".$client->last_name,
+                    'to_phone_number' => $client->phone_number,
+
+                ]
+            );
 
         } catch (Throwable $exception) {
             Log::error("Error while getting template, switching to default template. Error: " . $exception->getMessage());
@@ -176,7 +191,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
             $query->where('agent_id', $user->id);
         }
 
-        return $query->forPage($page)->paginate(1);
+        return $query->forPage($page)->paginate(10);
 
     }
 
