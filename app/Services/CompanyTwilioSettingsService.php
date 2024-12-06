@@ -11,7 +11,7 @@ class CompanyTwilioSettingsService
     /**
      * @throws \Throwable
      */
-    public function createOrUpdate(Company $company, string $phoneNumber, string $sid, string $token)
+    public function createOrUpdate(Company $company, string $phoneNumber, string $sid, string $token):void
     {
         $companyTwilioSettings = $company->companyTwilioSettings()->first();
         if(!$companyTwilioSettings){

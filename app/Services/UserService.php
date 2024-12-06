@@ -14,7 +14,7 @@ class UserService
     /**
      * @throws Throwable
      */
-    public function store(string $name, string $login, string $password, Roles $role, Company $company = null)
+    public function store(string $name, string $login, string $password, Roles $role, Company $company = null): void
     {
         $user = new User();
         $user->name = $name;
@@ -22,8 +22,7 @@ class UserService
         $user->password = Hash::make($password);
         $user->assignRole($role->value);
 
-        if($company)
-        {
+        if ($company) {
             $user->company_id = $company->id;
         }
 
@@ -34,10 +33,10 @@ class UserService
     /**
      * @throws Throwable
      */
-    public function update(User $user, string $name, string $password = null)
+    public function update(User $user, string $name, string $password = null): void
     {
         $user->name = $name;
-        if($password){
+        if ($password) {
             $user->password = Hash::make($password);
         }
         $user->saveOrFail();
@@ -47,7 +46,7 @@ class UserService
     /**
      * @throws Throwable
      */
-    public function delete(User $user)
+    public function delete(User $user): void
     {
         $user->deleteOrFail();
     }

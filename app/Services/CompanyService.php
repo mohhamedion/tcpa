@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Company;
+use Illuminate\Database\Eloquent\Collection;
 use Throwable;
 
 class CompanyService
@@ -11,7 +12,7 @@ class CompanyService
     /**
      * @throws Throwable
      */
-    public function store(string $name)
+    public function store(string $name): void
     {
         $company = new Company();
         $company->name = $name;
@@ -21,14 +22,16 @@ class CompanyService
     /**
      * @throws Throwable
      */
-    public function update(Company $company, string $name)
+    public function update(Company $company, string $name): void
     {
         $company->name = $name;
         $company->saveOrFail();
     }
 
-
-    public function index()
+    /**
+     * @return Collection
+     */
+    public function index(): Collection
     {
         return Company::all();
     }
@@ -36,7 +39,7 @@ class CompanyService
     /**
      * @throws Throwable
      */
-    public function delete(Company $company)
+    public function delete(Company $company): void
     {
         $company->deleteOrFail();
     }

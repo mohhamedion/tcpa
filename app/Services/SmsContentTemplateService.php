@@ -13,7 +13,7 @@ class SmsContentTemplateService
     /**
      * @throws Throwable
      */
-    public function createOrUpdate(Company $company, string $language, string $contentTemplate, string $type)
+    public function createOrUpdate(Company $company, string $language, string $contentTemplate, string $type): void
     {
         $template = $company->smsContentTemplate()
             ->where('language', $language)
@@ -33,7 +33,7 @@ class SmsContentTemplateService
     }
 
 
-    public function getParsedTemplate(Client $client,$type , array $customFields)
+    public function getParsedTemplate(Client $client,$type , array $customFields): string
     {
         $client->loadMissing('company.smsContentTemplate');
 

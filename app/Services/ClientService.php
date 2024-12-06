@@ -40,7 +40,7 @@ class ClientService
         $client->status = Statuses::CREATED->value; //todo move to enum
         $client->saveOrFail();
 
-        Log::info("New client {$client->first_name} {$client->last_name} created",['client_id' => $client->id]);
+        Log::info("New client {$client->first_name} {$client->last_name} created", ['client_id' => $client->id]);
 
         return $client;
     }
@@ -48,7 +48,7 @@ class ClientService
     /**
      * @throws Throwable
      */
-    public function sendVerificationCode(Client $client)
+    public function sendVerificationCode(Client $client): void
     {
         if ($client->status !== Statuses::CREATED->value) {
             throw new Exception('Client was already verified');
@@ -62,10 +62,10 @@ class ClientService
             $client->status = Statuses::WAITING_FOR_VERIFICATION->value;
             $client->saveOrFail();
 
-            try{
-                $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name,'code' => $verificationCode]);
-            }catch (Throwable $exception){
-                Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage(),['client_id' => $client->id]);
+            try {
+                $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::VerificationCode->value, ['company_name' => $client->company->name, 'code' => $verificationCode]);
+            } catch (Throwable $exception) {
+                Log::error("Error while getting template, switching to default template. Error: " . $exception->getMessage(), ['client_id' => $client->id]);
                 $template = "Your verification code is {$verificationCode}. Please provide it to the agent to begin the consent process.";
             }
             $this->smsMessageService->sendSmsMessage(
@@ -74,7 +74,7 @@ class ClientService
                 $template
             );
 
-            Log::info("sending verification code to client {$client->first_name} {$client->last_name}",['client_id' => $client->id]);
+            Log::info("sending verification code to client {$client->first_name} {$client->last_name}", ['client_id' => $client->id]);
 
             DB::commit();
         } catch (Throwable $exception) {
@@ -88,13 +88,13 @@ class ClientService
     /**
      * @throws Throwable
      */
-    public function sendRequestToAcceptTCPA(Client $client)
+    public function sendRequestToAcceptTCPA(Client $client): void
     {
         try {
             $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::TcpaAgreement->value, ['company_name' => $client->company->name]);
 
         } catch (Throwable $exception) {
-            Log::error("Error while getting template, switching to default template. Error: ". $exception->getMessage());
+            Log::error("Error while getting template, switching to default template. Error: " . $exception->getMessage());
             $template = "Consent Request for John Smith at '{$client->phone_number}'.
 Please reply 'YES' to confirm that you consent to receive advertisement calls from {$client->company->name}. ";
         }
@@ -108,7 +108,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
         $client->status = Statuses::WAITING_FOR_CLIENT_AGREEMENT->value;
         $client->saveOrFail();
 
-        Log::info("sending sms to  {$client->first_name} {$client->last_name} " ,['client_id' => $client->id]);
+        Log::info("sending sms to  {$client->first_name} {$client->last_name} ", ['client_id' => $client->id]);
 
     }
 
@@ -118,7 +118,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
      * @return void
      * @throws Throwable
      */
-    public function verify(Client $client, $verificationCode)
+    public function verify(Client $client, $verificationCode): void
     {
         if ($client->verification_code != $verificationCode) {
             throw new Exception("Verification code incorrect"); // todo: create unique exception
@@ -131,7 +131,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
     /**
      * @throws Throwable
      */
-    public function clientAcceptTcpa(Client $client)
+    public function clientAcceptTcpa(Client $client): void
     {
         $client->status = Statuses::TCPA_ACCEPTED->value;
         $client->saveOrFail();
@@ -140,7 +140,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
     /**
      * @throws Throwable
      */
-    public function clientDeclineTcpa(Client $client)
+    public function clientDeclineTcpa(Client $client): void
     {
         $client->status = Statuses::TCPA_DECLINED->value;
         $client->saveOrFail();
@@ -150,7 +150,7 @@ Please reply 'YES' to confirm that you consent to receive advertisement calls fr
     /**
      * @throws Throwable
      */
-    public function delete(Client $client)
+    public function delete(Client $client): void
     {
         $client->deleteOrFail();
     }

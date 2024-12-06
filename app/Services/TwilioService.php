@@ -25,7 +25,7 @@ class TwilioService
     /**
      * @throws TwilioException
      */
-    public function sendSmsMessage($from, $to, $content)
+    public function sendSmsMessage($from, $to, $content): void
     {
         // create smsMessage
            $this->client->messages->create(
