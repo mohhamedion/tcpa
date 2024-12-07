@@ -1,16 +1,31 @@
-```phpregexp
-php artisan migrate
+- Запустить с помощью докера
+
+```php
+cd docker
+sudo docker-compose up
 ```
 
+- Установить зависимости с помощью контейнера
 ```phpregexp
-php artisan app:init-app
+sudo docker exec -it tcpa-app composer install
 ```
 
+- Миграция 
 ```phpregexp
-php artisan app:create-admin {name} {login} {password}
+sudo docker exec -it tcpa-app php artisan migrate
+```
+
+- Актуализирование существующих ролей
+```
+sudo docker exec -it tcpa-app php artisan app:init-app
+```
+
+- Создать супер-админа
+```
+sudo docker exec -it tcpa-app php artisan app:create-admin {name} {login} {password}
 ```
 
 Например
 ```phpregexp
-php artisan app:create-admin admin admin admin
+sudo docker exec -it tcpa-app php artisan app:create-admin admin admin admin
 ```
