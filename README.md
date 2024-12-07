@@ -6,6 +6,20 @@ http://localhost:8252/ - nginx
 http://localhost:9292 - phpmyadmin
 ```
 
+- Если использовать дамп базы данных
+То можно использовать эти доступы:
+
+**Супер админ**
+```text
+login: admin
+pass: admin
+```
+
+**Агент компании UTD**
+```text
+login: agent_utd
+pass: agent
+```
 ## PHP
 
 1. Перейти в директорию `docker`:
