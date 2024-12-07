@@ -10,6 +10,14 @@
    ```bash
    sudo docker-compose up
    ```
+## Создать .env
+```bash
+cp  .env.example .env
+```
+
+```bash
+sudo docker exec -it tcpa-app php artisan key:generate
+```
 
 ## Установка зависимостей через контейнер
 ```bash
