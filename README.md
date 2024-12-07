@@ -106,3 +106,8 @@ sudo docker exec -it tcpa-app php artisan app:create-admin admin admin admin
 На этой же форме доступен режим тестирования ответа без использования вебхука.  
 
 ![img_12.png](img_12.png)
+
+
+- Страница для настройки шаблонов сообщения  
+
+![img_13.png](img_13.png)
