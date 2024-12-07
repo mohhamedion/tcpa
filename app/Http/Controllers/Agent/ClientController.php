@@ -46,16 +46,16 @@ class ClientController extends Controller
         return view('agent.clients.update');
     }
 
-    public function show($companyHash, Client $client)
+    public function show(Client $client)
     {
-        return view('agent.clients.show')->with(['client' => $client, 'company_hash' => $companyHash]);
+        return view('agent.clients.show')->with(['client' => $client]);
     }
 
 
     /**
      * @throws Throwable
      */
-    public function delete($companyHash, Client $client)
+    public function delete(Client $client)
     {
         try {
             $this->clientService->delete($client);
@@ -100,7 +100,7 @@ class ClientController extends Controller
 
     }
 
-    public function sendVerificationCode(Request $request, string $companyHash, Client $client)
+    public function sendVerificationCode(Request $request, Client $client)
     {
         // todo: add policy
         try {
@@ -118,7 +118,7 @@ class ClientController extends Controller
     /**
      * @throws Throwable
      */
-    public function verify(VerifySmsCodeRequest $request, string $companyHash, Client $client)
+    public function verify(VerifySmsCodeRequest $request, Client $client)
     {
         // todo: add policy
 

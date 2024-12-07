@@ -26,14 +26,12 @@ class TwilioSmsController extends Controller
     /**
      * @throws Throwable
      */
-    public function receiveMessage(Request $request, $hash): MessagingResponse
+    public function receiveMessage(Request $request, $company): MessagingResponse
     {
-
+        /**
+         * @var Company $company
+         */
         try {
-            /**
-             * @var Company $company
-             */
-            $company = Company::query()->where('hash', $hash)->firstOrFail();
 
             $messageContent = $request->input('Body');
             $fromNumber = $request->input('From');
@@ -55,6 +53,7 @@ class TwilioSmsController extends Controller
         } catch (Throwable $exception) {
             Log::error("Error while reading message: " . $exception->getMessage());
             Log::info("Request body : " . json_encode($request->all()));
+            throw  $exception;
         }
 
         return new MessagingResponse();

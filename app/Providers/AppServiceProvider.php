@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,8 +27,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        Paginator::useBootstrap();
+        Route::bind('company_hash', function ($value) {
+            return Company::query()->where('hash', $value)->firstOrFail();
+        });
 
+        Paginator::useBootstrap();
         $this->app->singleton(TwilioService::class, function ($app) {
             /**
              * @var User $user
@@ -35,9 +39,9 @@ class AppServiceProvider extends ServiceProvider
             $user = Auth::user();
             if(!$user){
                 $request = $app->make(Request::class);
-                $hash = $request->route('company_hash'); // Get company_name from the route
-                $company = Company::query()->where('hash', $hash)->first();
-                if(!$company){
+                $company = $request->route('company_hash');
+                if(!$company)
+                {
                     throw new \Exception('Company not found');
                 }
             }else{

@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,18 +17,15 @@ class SetCompanyHashPrefix
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /**
-         * @var User $user;
-         */
-        $user = $request->user();
-        $company = $user->company;
+        $company = $request->route('company_hash');
 
-        if ($company) {
-            $request->attributes->add(['company_hash' => $company->hash]);
-        } else {
+        if (!$company)
+        {
             abort(404, 'Company not found');
         }
-
+        $request->attributes->add(['company_hash' => $company->hash]);
+        app()->instance('company', $company);
+        $request->route()->forgetParameter('company_hash');
         return $next($request);
     }
 }
