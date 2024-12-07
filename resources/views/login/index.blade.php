@@ -11,7 +11,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter username">
+                            <input type="text" class="form-control" name="login" id="login" placeholder="Enter username">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>

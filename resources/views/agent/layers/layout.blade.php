@@ -40,10 +40,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            @if(app('company')->companyTwilioSettings)
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{route('clients.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Clients</a>
             </div>
-
+            @endif
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{route('twilio-settings.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Twilio settings</a>
             </div>
@@ -51,11 +52,12 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{route('sms-content-template.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Sms Template</a>
             </div>
+                @if(app('company')->companyTwilioSettings)
 
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{route('sms-messages.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Sms Messages History</a>
-            </div>
-
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{{route('sms-messages.index',['company_hash' => request()->attributes->get('company_hash')])}}" >Sms Messages History</a>
+                </div>
+                @endif
         </div>
 
         <!-- Move logout button outside of second collapse -->

@@ -22,7 +22,7 @@ class CreateOrUpdateCompanyTwilioSettings extends FormRequest
     public function rules(): array
     {
         return [
-            'from_number' => ['required','string'],
+            'phone_number' => ['required','string'],
             'sid' => ['required','string'],
             'token' => ['required','string'],
         ];

@@ -22,7 +22,7 @@ class AuthController extends Controller
 
     public function auth(Request $request)
     {
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('login', 'password');
 
         if (Auth::attempt($credentials)) {
             /**
@@ -37,11 +37,11 @@ class AuthController extends Controller
             }
 
             return redirect($route);
+        }else{
+            session()->flash('error',"incorrect login or password");
         }
 
-        return redirect(route('login'))->withErrors([
-            'credentials' => "incorrect login or password",
-        ]);
+        return redirect(route('login'));
     }
 
 }
