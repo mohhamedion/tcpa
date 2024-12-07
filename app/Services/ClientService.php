@@ -71,7 +71,7 @@ class ClientService
                     [
                         'company_name' => $client->company->name,
                         'code' => $verificationCode,
-                        'client_name' => $client->first_name." ".$client->last_name,
+                        'client_name' => $client->first_name . " " . $client->last_name,
                         'to_phone_number' => $client->phone_number,
                     ]
                 );
@@ -105,7 +105,7 @@ class ClientService
             $template = $this->smsContentTemplateService->getParsedTemplate($client, AvailableTypes::TcpaAgreement->value,
                 [
                     'company_name' => $client->company->name,
-                    'client_name' => $client->first_name." ".$client->last_name,
+                    'client_name' => $client->first_name . " " . $client->last_name,
                     'to_phone_number' => $client->phone_number,
 
                 ]

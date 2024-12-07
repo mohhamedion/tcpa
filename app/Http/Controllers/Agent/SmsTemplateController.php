@@ -29,18 +29,18 @@ class SmsTemplateController extends Controller
 
         return view('agent.sms-templates.index')->with(['smsTemplates' => $user->company->smsContentTemplate]);
     }
+
     /**
      * @throws Throwable
      */
     public function createOrUpdate(Request $request)
     {
         /**
-         * @var User $user;
+         * @var User $user ;
          */
         $user = $request->user();
 
-        foreach ($request->input('languages') as $language => $languageTemplate )
-        {
+        foreach ($request->input('languages') as $language => $languageTemplate) {
             $this->templateService->createOrUpdate($user->company,
                 $language,
                 $languageTemplate['verification_code_template'],
@@ -51,7 +51,6 @@ class SmsTemplateController extends Controller
                 $languageTemplate['tcpa_template'],
                 AvailableTypes::TcpaAgreement->value);
         }
-
 
 
         return redirect()->back();

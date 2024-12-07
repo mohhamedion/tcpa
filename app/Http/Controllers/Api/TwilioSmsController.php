@@ -53,7 +53,7 @@ class TwilioSmsController extends Controller
                 Log::info(json_encode($request->all()));
             }
         } catch (Throwable $exception) {
-            Log::error("Error while reading message: " . $exception->getMessage() );
+            Log::error("Error while reading message: " . $exception->getMessage());
             Log::info("Request body : " . json_encode($request->all()));
         }
 

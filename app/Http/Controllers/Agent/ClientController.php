@@ -26,7 +26,7 @@ class ClientController extends Controller
     {
         $clients = $this->clientService->index(
             $request->user(),
-            $request->input('page',1),
+            $request->input('page', 1),
             $request->input('status'),
             $request->input('date'),
             $request->input('phone_number')
@@ -105,7 +105,7 @@ class ClientController extends Controller
         // todo: add policy
         try {
             $this->clientService->sendVerificationCode($client);
-            session()->flash('success','SMS verification code successfully sent.');
+            session()->flash('success', 'SMS verification code successfully sent.');
         } catch (Throwable $exception) {
             Log::error("Error while sending verification code: " . $exception->getMessage());
             session()->flash('error', "Error while sending verification code: " . $exception->getMessage());

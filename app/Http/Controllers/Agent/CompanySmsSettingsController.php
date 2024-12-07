@@ -24,6 +24,7 @@ class CompanySmsSettingsController extends Controller
         $user = $request->user();
         return view('agent.twilio-settings.index')->with(['companyTwilioSettings' => $user->company->companyTwilioSettings]);
     }
+
     /**
      * @throws Throwable
      */
@@ -38,11 +39,11 @@ class CompanySmsSettingsController extends Controller
             $sid = $request->input('sid');
             $token = $request->input('token');
             $this->companySmsSettingsService->createOrUpdate($user->company, $phoneNumber, $sid, $token);
-            session()->flash('success','Twilio settings updated');
+            session()->flash('success', 'Twilio settings updated');
 
         } catch (Throwable $exception) {
-            Log::error("Error while saving twilio settings ".$exception->getMessage());
-            session()->flash('error','Error while saving twilio settings');
+            Log::error("Error while saving twilio settings " . $exception->getMessage());
+            session()->flash('error', 'Error while saving twilio settings');
         }
 
         return redirect()->back();

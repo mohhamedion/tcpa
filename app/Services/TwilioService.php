@@ -28,13 +28,13 @@ class TwilioService
     public function sendSmsMessage($from, $to, $content): void
     {
         // create smsMessage
-           $this->client->messages->create(
-                $to,
-                [
-                    'from' => $from,
-                    'body' => $content
-                ]
-            );
+        $this->client->messages->create(
+            $to,
+            [
+                'from' => $from,
+                'body' => $content
+            ]
+        );
 
     }
 
