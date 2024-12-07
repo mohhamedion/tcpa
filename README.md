@@ -1,4 +1,10 @@
 # Запуск с помощью Docker
+- Порты по умолчанию
+
+```phpregexp
+localhost:8252 - nginx
+localhost:9292 - phpmyadmin
+```
 
 ## PHP
 
