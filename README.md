@@ -110,4 +110,4 @@ sudo docker exec -it tcpa-app php artisan app:create-admin admin admin admin
 
 - Страница для настройки шаблонов сообщения  
 
-![img_13.png](img_13.png)
+![img_14.png](img_14.png)
